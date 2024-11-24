@@ -16,6 +16,7 @@ public: // funcs
   ~VulkanInit();
   void Init(GLFWwindow *pWindowHandle, std::string_view pWindowTitle);
   void updateWindowDimensions();
+  GLFWwindow *GetWindowHandle() { return mWindowHandle; }
 
 public: // objects
   VkInstance mInstance;

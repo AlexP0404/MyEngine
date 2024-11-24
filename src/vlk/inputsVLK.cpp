@@ -1,22 +1,16 @@
 #include "inputsVLK.hpp"
 
-#include "engineVLK.hpp"
-
 #include <GLFW/glfw3.h>
 
-inputVLK::~inputVLK() { windowHandle = nullptr; }
+inputVLK::inputVLK(GLFWwindow *windowHandle) : m_windowHandle(windowHandle) {}
 
-void inputVLK::updateKeyStates() {
-  if (windowHandle) // only need to get the handle once
-    return;
-
-  windowHandle = EngineVLK::Get().PFN_GetWindowVLK()->getWindowHandle();
-}
+inputVLK::~inputVLK() {}
 
 bool inputVLK::IsKeyDown(KeyCode key) {
-  if (!windowHandle) // somehow if window isn't create yet or already destroyed
+  if (!m_windowHandle) // somehow if window isn't create yet or already
+                       // destroyed
     return false;
 
-  int state = glfwGetKey(windowHandle, (int)key);
+  int state = glfwGetKey(m_windowHandle, (int)key);
   return state == GLFW_PRESS || state == GLFW_REPEAT;
 }

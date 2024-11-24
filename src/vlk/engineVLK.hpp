@@ -2,6 +2,7 @@
 #define ENGINE_VLK_HPP
 
 #include "engine.hpp"
+#include "inputsVLK.hpp"
 #include "renderer.hpp"
 #include "windowVLK.hpp"
 #include <memory>
@@ -9,8 +10,6 @@
 class EngineVLK : public Engine {
 
 public:
-  static EngineVLK &Get();
-
   EngineVLK();
   ~EngineVLK() override;
 
@@ -46,6 +45,7 @@ private:
       mpRenderer; // render class that sets up vulkan and handles all internal
                   // structures and has some basic drawing primitives
   std::shared_ptr<WindowVLK> mpWindow; // simple glfw window class setup
+  std::shared_ptr<inputVLK> mInputs;
   uint32_t mNumEntities;
 };
 

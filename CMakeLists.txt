@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(libengine)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(GCC_COVERAGE_COMPILE_FLAGS "")
 
@@ -9,22 +9,23 @@ if(NOT MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 endif()
 
-set(ENGINE_USE_VLK ON)
-
 if(ENGINE_USE_VLK)
   find_package(Vulkan REQUIRED)
   find_package(glfw3 REQUIRED)
   find_package(glm REQUIRED)
   find_package(OpenAL REQUIRED)
 
+  set(IMGUI_DEPS "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui"
+                 "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends")
+
   file(
     GLOB_RECURSE
     ENGINE_SRC
     CONFIGURE_DEPENDS
-    "${PROJECT_SOURCE_DIR}/src/engine.hpp"
-    "${PROJECT_SOURCE_DIR}/src/keyCodes.hpp"
-    "${PROJECT_SOURCE_DIR}/src/vlk/*.hpp"
-    "${PROJECT_SOURCE_DIR}/src/vlk/*.cpp")
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/keyCodes.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk/*.cpp")
 
   add_library(engine STATIC ${ENGINE_SRC})
 
@@ -34,8 +35,9 @@ if(ENGINE_USE_VLK)
   target_link_libraries(engine PUBLIC OpenAL::OpenAL)
 
   target_include_directories(
-    engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src"
-                  "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk" Vulkan::Headers)
+    engine
+    PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src"
+           "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk" ${IMGUI_DEPS} Vulkan::Headers)
 
   target_compile_definitions(engine PUBLIC ENGINE_USE_VLK)
 else()
@@ -68,5 +70,4 @@ else()
   target_include_directories(
     engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src"
                   "${CMAKE_CURRENT_SOURCE_DIR}/src/sdl")
-
 endif()

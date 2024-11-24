@@ -6,11 +6,11 @@
 struct GLFWwindow;
 
 class inputVLK {
-  GLFWwindow *windowHandle = nullptr;
+  GLFWwindow *m_windowHandle = nullptr;
 
 public:
+  inputVLK(GLFWwindow *windowHandle);
   ~inputVLK();
-  void updateKeyStates();
   bool IsKeyDown(KeyCode keycode);
 };
 

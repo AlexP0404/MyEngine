@@ -13,6 +13,8 @@
 #include <vector>
 #include <vulkan/vulkan_core.h>
 
+class ImDrawData;
+
 class VulkanRenderData {
 public:
   explicit VulkanRenderData();
@@ -84,6 +86,9 @@ private:
   std::vector<VkSemaphore> mRndrFinSemaphores;
   std::vector<VkFence> mInFlightFences;
 
+  // TODO MAKE AN IMGUI DRAWING FUNCTION SIMILAR TO recordXCommandBuffer(...)
+  // FUNCTIONS THAT ARE ALREADY THERE
+
 private:
   void initQueues();
   void getSwapChainImages();
@@ -123,6 +128,7 @@ private:
   void recordCircCommandBuffer(VkCommandBuffer pCommandBuffer,
                                uint32_t pImageIndex);
   void createSyncObjects();
+  void initImGUI();
 
   static std::vector<char> readShader(std::string_view pFilename);
   VkShaderModule createShaderModule(const std::vector<char> &pCode);

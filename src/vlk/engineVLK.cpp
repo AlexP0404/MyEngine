@@ -2,23 +2,14 @@
 #include "renderer.hpp"
 #include <memory>
 
-// allows things like the input class to access the current application instance
-// while avoiding creating a whole new engine object
-static EngineVLK *s_Instance = nullptr;
-EngineVLK &EngineVLK::Get() { return *s_Instance; }
+EngineVLK::EngineVLK() { mNumEntities = 0; }
 
-EngineVLK::EngineVLK() {
-  s_Instance = this; // set the current application instance
-  mNumEntities = 0;
-}
-
-EngineVLK::~EngineVLK() {
-  s_Instance = nullptr; // instance is no longer valid
-}
+EngineVLK::~EngineVLK() { shutdown(); }
 
 bool EngineVLK::init() {
   mpWindow =
       std::make_shared<WindowVLK>(m_ScreenWidth, m_ScreenHeight, m_GameTitle);
+  mInputs = std::make_shared<inputVLK>(mpWindow->getWindowHandle());
   mpRenderer = std::make_shared<Renderer>(mpWindow, m_GameTitle);
   return mpWindow != nullptr && mpRenderer != nullptr;
 }
@@ -30,7 +21,9 @@ void EngineVLK::shutdown() {
 bool EngineVLK::loadMedia() { return true; }
 
 bool EngineVLK::shouldQuit() {
-  if (mpWindow->windowShouldClose()) {
+  bool const userPressedQuit =
+      mInputs->IsKeyDown(KeyCode::Escape) || mInputs->IsKeyDown(KeyCode::Q);
+  if (mpWindow->windowShouldClose() || userPressedQuit == true) {
     mpRenderer->devWaitIdle();
     return true;
   }

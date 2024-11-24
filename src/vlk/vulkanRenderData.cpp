@@ -4,6 +4,10 @@
 #include "utils.hpp"
 #include "vertex.hpp"
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_vulkan.h"
+
 #include <array>
 #include <cassert>
 #include <fstream>
@@ -19,6 +23,11 @@ VulkanRenderData::~VulkanRenderData() {
   assert(mInit);
   //
   //
+  //
+  ImGui_ImplVulkan_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+
   for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
     vkDestroyBuffer(mInit->mLogicalDevice, mUniformBuffers[i], nullptr);
     vkFreeMemory(mInit->mLogicalDevice, mUniformBuffersMemory[i], nullptr);
@@ -80,12 +89,12 @@ void VulkanRenderData::initRenderData(std::shared_ptr<VulkanInit> pInit) {
   createCommandPool();
   createVertexBuffers();
   createIndexBuffers();
-  /* createCircVertexBuffer(); */
   createUniformBuffers();
   createDescriptorPool();
   createDescriptorSets();
   createCommandBuffers();
   createSyncObjects();
+  initImGUI();
 }
 
 void VulkanRenderData::devWaitIdle() {
@@ -316,80 +325,77 @@ void VulkanRenderData::createGraphicsPipeline(
   multisampling.pSampleMask = nullptr;
   multisampling.alphaToCoverageEnable = VK_FALSE;
   multisampling.alphaToOneEnable = VK_FALSE;
-
+)
   VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-  Utils::zeroInitializeStruct(colorBlendAttachment);
-  colorBlendAttachment.colorWriteMask =
-      VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-      VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-  colorBlendAttachment.blendEnable = VK_FALSE;
-  colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-  colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-  colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-  colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-  colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-  colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-  colorBlendAttachment.blendEnable = VK_TRUE;
-  colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-  colorBlendAttachment.dstColorBlendFactor =
-      VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-  colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-  colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-  colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-  colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+Utils::zeroInitializeStruct(colorBlendAttachment);
+colorBlendAttachment.colorWriteMask =
+    VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+    VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+colorBlendAttachment.blendEnable = VK_FALSE;
+colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+colorBlendAttachment.blendEnable = VK_TRUE;
+colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 
-  VkPipelineColorBlendStateCreateInfo colorBlending{};
-  Utils::zeroInitializeStruct(colorBlending);
-  colorBlending.sType =
-      VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-  colorBlending.logicOpEnable = VK_FALSE;
-  colorBlending.logicOp = VK_LOGIC_OP_COPY;
-  colorBlending.attachmentCount = 1;
-  colorBlending.pAttachments = &colorBlendAttachment;
-  colorBlending.blendConstants[0] = 0.0f;
-  colorBlending.blendConstants[1] = 0.0f;
-  colorBlending.blendConstants[2] = 0.0f;
-  colorBlending.blendConstants[3] = 0.0f;
+VkPipelineColorBlendStateCreateInfo colorBlending{};
+Utils::zeroInitializeStruct(colorBlending);
+colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+colorBlending.logicOpEnable = VK_FALSE;
+colorBlending.logicOp = VK_LOGIC_OP_COPY;
+colorBlending.attachmentCount = 1;
+colorBlending.pAttachments = &colorBlendAttachment;
+colorBlending.blendConstants[0] = 0.0f;
+colorBlending.blendConstants[1] = 0.0f;
+colorBlending.blendConstants[2] = 0.0f;
+colorBlending.blendConstants[3] = 0.0f;
 
-  VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-  Utils::zeroInitializeStruct(pipelineLayoutInfo);
-  pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-  pipelineLayoutInfo.setLayoutCount = pDescSetLayoutCount;
-  pipelineLayoutInfo.pSetLayouts = ppDescSetLayout;
-  pipelineLayoutInfo.pushConstantRangeCount = 0;
-  pipelineLayoutInfo.pPushConstantRanges = nullptr;
+VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+Utils::zeroInitializeStruct(pipelineLayoutInfo);
+pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+pipelineLayoutInfo.setLayoutCount = pDescSetLayoutCount;
+pipelineLayoutInfo.pSetLayouts = ppDescSetLayout;
+pipelineLayoutInfo.pushConstantRangeCount = 0;
+pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
-  if (vkCreatePipelineLayout(mInit->mLogicalDevice, &pipelineLayoutInfo,
-                             nullptr, &pPipelineLayout) != VK_SUCCESS) {
-    throw std::runtime_error("failed to create pipeline layout!");
-  }
+if (vkCreatePipelineLayout(mInit->mLogicalDevice, &pipelineLayoutInfo, nullptr,
+                           &pPipelineLayout) != VK_SUCCESS) {
+  throw std::runtime_error("failed to create pipeline layout!");
+}
 
-  VkGraphicsPipelineCreateInfo pipelineInfo{};
-  Utils::zeroInitializeStruct(pipelineInfo);
-  pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-  pipelineInfo.stageCount = 2;
-  pipelineInfo.pStages = shaderStages;
-  pipelineInfo.pVertexInputState = &vertexInputInfo;
-  pipelineInfo.pInputAssemblyState = &inputAssembly;
-  pipelineInfo.pViewportState = &viewportState;
-  pipelineInfo.pRasterizationState = &rasterizer;
-  pipelineInfo.pMultisampleState = &multisampling;
-  pipelineInfo.pDepthStencilState = nullptr;
-  pipelineInfo.pColorBlendState = &colorBlending;
-  pipelineInfo.pDynamicState = &dynamicState;
-  pipelineInfo.layout = pPipelineLayout;
-  pipelineInfo.renderPass = mRenderPassInit;
-  pipelineInfo.subpass = 0;
-  pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
-  pipelineInfo.basePipelineIndex = -1;
+VkGraphicsPipelineCreateInfo pipelineInfo{};
+Utils::zeroInitializeStruct(pipelineInfo);
+pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+pipelineInfo.stageCount = 2;
+pipelineInfo.pStages = shaderStages;
+pipelineInfo.pVertexInputState = &vertexInputInfo;
+pipelineInfo.pInputAssemblyState = &inputAssembly;
+pipelineInfo.pViewportState = &viewportState;
+pipelineInfo.pRasterizationState = &rasterizer;
+pipelineInfo.pMultisampleState = &multisampling;
+pipelineInfo.pDepthStencilState = nullptr;
+pipelineInfo.pColorBlendState = &colorBlending;
+pipelineInfo.pDynamicState = &dynamicState;
+pipelineInfo.layout = pPipelineLayout;
+pipelineInfo.renderPass = mRenderPassInit;
+pipelineInfo.subpass = 0;
+pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+pipelineInfo.basePipelineIndex = -1;
 
-  if (vkCreateGraphicsPipelines(mInit->mLogicalDevice, VK_NULL_HANDLE, 1,
-                                &pipelineInfo, nullptr,
-                                &pPipeline) != VK_SUCCESS)
-    throw std::runtime_error("Failed to create graphics pipeline!");
+if (vkCreateGraphicsPipelines(mInit->mLogicalDevice, VK_NULL_HANDLE, 1,
+                              &pipelineInfo, nullptr, &pPipeline) != VK_SUCCESS)
+  throw std::runtime_error("Failed to create graphics pipeline!");
 
-  vkDestroyShaderModule(mInit->mLogicalDevice, vShaderModule, nullptr);
-  vkDestroyShaderModule(mInit->mLogicalDevice, fShaderModule, nullptr);
+vkDestroyShaderModule(mInit->mLogicalDevice, vShaderModule, nullptr);
+vkDestroyShaderModule(mInit->mLogicalDevice, fShaderModule, nullptr);
 }
 
 std::vector<char> VulkanRenderData::readShader(std::string_view pFilename) {
@@ -1063,3 +1069,29 @@ void VulkanRenderData::recreateSwapchain() {
 }
 // TODO:: design the command buffer implementation so that the renderer is able
 // to batch together commands
+void VulkanRenderData::initImGUI() {
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImGuiIO &io = ImGui::GetIO();
+  (void)io;
+  io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+  ImGui::StyleColorsDark();
+
+  ImGui_ImplGlfw_InitForVulkan(mInit->GetWindowHandle(), true);
+  ImGui_ImplVulkan_InitInfo initInfo = {};
+  initInfo.Instance = mInit->mInstance;
+  initInfo.PhysicalDevice = mInit->mPhysicalDevice;
+  initInfo.Device = mInit->mLogicalDevice;
+  initInfo.QueueFamily = mInit->mQFIndices.graphicsFamily.value();
+  initInfo.Queue = mGraphicsQueue;
+  // initInfo.PipelineCache = mQuadGraphicsPipeline;
+  initInfo.DescriptorPool = mDescPool;
+  initInfo.RenderPass = mRenderPassInit;
+  initInfo.Subpass = 0;
+  initInfo.MinImageCount = MAX_FRAMES_IN_FLIGHT;
+  initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+  initInfo.Allocator = nullptr;
+  initInfo.CheckVkResultFn = nullptr;
+  ImGui_ImplVulkan_Init(&initInfo);
+}
