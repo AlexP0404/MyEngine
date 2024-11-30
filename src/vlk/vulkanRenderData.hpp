@@ -20,6 +20,7 @@ public:
   explicit VulkanRenderData();
   ~VulkanRenderData();
   void initRenderData(std::shared_ptr<VulkanInit> pInit);
+  void prepareFrame(); // used for IMGUI preparing
   void drawFrame(bool pFrameBufferResized);
   void devWaitIdle();
   // these are used by the renderer class
@@ -28,10 +29,12 @@ public:
   void initNewEntity(bool pIsCircle = false);
   void drawIndexed(uint32_t pNumQuadsToDraw = 0, uint32_t pNumCircsToDraw = 0);
 
-  void insertQuad(const std::array<Vertex, 4> &pVertices,
-                  const uint32_t pQuadNum);
-  void insertCircle(const std::array<CircleVertex, 4> &pVertices,
-                    const uint32_t pCircleNum);
+  // these should be changed to builder functions that take in a location,
+  // and size/radius and maybe ID
+  // void insertQuad(const std::array<Vertex, 4> &pVertices,
+  //                 const uint32_t pQuadNum);
+  // void insertCircle(const std::array<CircleVertex, 4> &pVertices,
+  //                   const uint32_t pCircleNum);
 
   void clearVertices();
 
@@ -127,6 +130,8 @@ private:
                                uint32_t pImageIndex);
   void recordCircCommandBuffer(VkCommandBuffer pCommandBuffer,
                                uint32_t pImageIndex);
+  void recordImGuiCommandBuffer(VkCommandBuffer pCommandBuffer,
+                                uint32_t pImageIndex);
   void createSyncObjects();
   void initImGUI();
 

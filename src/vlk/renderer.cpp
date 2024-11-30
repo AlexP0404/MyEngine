@@ -170,6 +170,7 @@ void Renderer::Flush() {
 }
 
 void Renderer::BeginBatch() {
+  mVLKData.prepareFrame();
   mNumQuadsDrawn = 0;
   mNumCirclesDrawn = 0;
   mVLKData.clearVertices();

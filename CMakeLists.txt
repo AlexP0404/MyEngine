@@ -15,8 +15,8 @@ if(ENGINE_USE_VLK)
   find_package(glm REQUIRED)
   find_package(OpenAL REQUIRED)
 
-  set(IMGUI_DEPS "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui"
-                 "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui/backends")
+  set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
+  set(IMGUI_DEPS "${IMGUI_DIR}" "${IMGUI_DIR}/backends")
 
   file(
     GLOB_RECURSE
@@ -25,7 +25,14 @@ if(ENGINE_USE_VLK)
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/keyCodes.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk/*.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk/*.cpp")
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/vlk/*.cpp"
+    "${IMGUI_DIR}/imgui.cpp"
+    "${IMGUI_DIR}/imgui_draw.cpp"
+    "${IMGUI_DIR}/imgui_demo.cpp"
+    "${IMGUI_DIR}/imgui_tables.cpp"
+    "${IMGUI_DIR}/imgui_widgets.cpp"
+    "${IMGUI_DIR}/backends/imgui_impl_glfw.cpp"
+    "${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp")
 
   add_library(engine STATIC ${ENGINE_SRC})
 

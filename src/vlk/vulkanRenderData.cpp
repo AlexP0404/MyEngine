@@ -13,6 +13,15 @@
 #include <fstream>
 #include <stdexcept>
 
+static void check_vk_result(VkResult err)
+{
+    if (err == 0)
+        return;
+    fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
+    if (err < 0)
+        abort();
+}
+
 VulkanRenderData::VulkanRenderData() {
   mCurrentFrame = 0;
   mNumQuadIndicesToDraw = 0;
@@ -21,7 +30,6 @@ VulkanRenderData::VulkanRenderData() {
 
 VulkanRenderData::~VulkanRenderData() {
   assert(mInit);
-  //
   //
   //
   ImGui_ImplVulkan_Shutdown();
@@ -325,77 +333,79 @@ void VulkanRenderData::createGraphicsPipeline(
   multisampling.pSampleMask = nullptr;
   multisampling.alphaToCoverageEnable = VK_FALSE;
   multisampling.alphaToOneEnable = VK_FALSE;
-)
   VkPipelineColorBlendAttachmentState colorBlendAttachment{};
-Utils::zeroInitializeStruct(colorBlendAttachment);
-colorBlendAttachment.colorWriteMask =
-    VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
-    VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
-colorBlendAttachment.blendEnable = VK_FALSE;
-colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
-colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
-colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
-colorBlendAttachment.blendEnable = VK_TRUE;
-colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
-colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+  Utils::zeroInitializeStruct(colorBlendAttachment);
+  colorBlendAttachment.colorWriteMask =
+      VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT |
+      VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+  colorBlendAttachment.blendEnable = VK_FALSE;
+  colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE;
+  colorBlendAttachment.dstColorBlendFactor = VK_BLEND_FACTOR_ZERO;
+  colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+  colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+  colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+  colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
+  colorBlendAttachment.blendEnable = VK_TRUE;
+  colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+  colorBlendAttachment.dstColorBlendFactor =
+      VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+  colorBlendAttachment.colorBlendOp = VK_BLEND_OP_ADD;
+  colorBlendAttachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+  colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+  colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;
 
-VkPipelineColorBlendStateCreateInfo colorBlending{};
-Utils::zeroInitializeStruct(colorBlending);
-colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
-colorBlending.logicOpEnable = VK_FALSE;
-colorBlending.logicOp = VK_LOGIC_OP_COPY;
-colorBlending.attachmentCount = 1;
-colorBlending.pAttachments = &colorBlendAttachment;
-colorBlending.blendConstants[0] = 0.0f;
-colorBlending.blendConstants[1] = 0.0f;
-colorBlending.blendConstants[2] = 0.0f;
-colorBlending.blendConstants[3] = 0.0f;
+  VkPipelineColorBlendStateCreateInfo colorBlending{};
+  Utils::zeroInitializeStruct(colorBlending);
+  colorBlending.sType =
+      VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
+  colorBlending.logicOpEnable = VK_FALSE;
+  colorBlending.logicOp = VK_LOGIC_OP_COPY;
+  colorBlending.attachmentCount = 1;
+  colorBlending.pAttachments = &colorBlendAttachment;
+  colorBlending.blendConstants[0] = 0.0f;
+  colorBlending.blendConstants[1] = 0.0f;
+  colorBlending.blendConstants[2] = 0.0f;
+  colorBlending.blendConstants[3] = 0.0f;
 
-VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-Utils::zeroInitializeStruct(pipelineLayoutInfo);
-pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-pipelineLayoutInfo.setLayoutCount = pDescSetLayoutCount;
-pipelineLayoutInfo.pSetLayouts = ppDescSetLayout;
-pipelineLayoutInfo.pushConstantRangeCount = 0;
-pipelineLayoutInfo.pPushConstantRanges = nullptr;
+  VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+  Utils::zeroInitializeStruct(pipelineLayoutInfo);
+  pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+  pipelineLayoutInfo.setLayoutCount = pDescSetLayoutCount;
+  pipelineLayoutInfo.pSetLayouts = ppDescSetLayout;
+  pipelineLayoutInfo.pushConstantRangeCount = 0;
+  pipelineLayoutInfo.pPushConstantRanges = nullptr;
 
-if (vkCreatePipelineLayout(mInit->mLogicalDevice, &pipelineLayoutInfo, nullptr,
-                           &pPipelineLayout) != VK_SUCCESS) {
-  throw std::runtime_error("failed to create pipeline layout!");
-}
+  if (vkCreatePipelineLayout(mInit->mLogicalDevice, &pipelineLayoutInfo,
+                             nullptr, &pPipelineLayout) != VK_SUCCESS) {
+    throw std::runtime_error("failed to create pipeline layout!");
+  }
 
-VkGraphicsPipelineCreateInfo pipelineInfo{};
-Utils::zeroInitializeStruct(pipelineInfo);
-pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-pipelineInfo.stageCount = 2;
-pipelineInfo.pStages = shaderStages;
-pipelineInfo.pVertexInputState = &vertexInputInfo;
-pipelineInfo.pInputAssemblyState = &inputAssembly;
-pipelineInfo.pViewportState = &viewportState;
-pipelineInfo.pRasterizationState = &rasterizer;
-pipelineInfo.pMultisampleState = &multisampling;
-pipelineInfo.pDepthStencilState = nullptr;
-pipelineInfo.pColorBlendState = &colorBlending;
-pipelineInfo.pDynamicState = &dynamicState;
-pipelineInfo.layout = pPipelineLayout;
-pipelineInfo.renderPass = mRenderPassInit;
-pipelineInfo.subpass = 0;
-pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
-pipelineInfo.basePipelineIndex = -1;
+  VkGraphicsPipelineCreateInfo pipelineInfo{};
+  Utils::zeroInitializeStruct(pipelineInfo);
+  pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+  pipelineInfo.stageCount = 2;
+  pipelineInfo.pStages = shaderStages;
+  pipelineInfo.pVertexInputState = &vertexInputInfo;
+  pipelineInfo.pInputAssemblyState = &inputAssembly;
+  pipelineInfo.pViewportState = &viewportState;
+  pipelineInfo.pRasterizationState = &rasterizer;
+  pipelineInfo.pMultisampleState = &multisampling;
+  pipelineInfo.pDepthStencilState = nullptr;
+  pipelineInfo.pColorBlendState = &colorBlending;
+  pipelineInfo.pDynamicState = &dynamicState;
+  pipelineInfo.layout = pPipelineLayout;
+  pipelineInfo.renderPass = mRenderPassInit;
+  pipelineInfo.subpass = 0;
+  pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
+  pipelineInfo.basePipelineIndex = -1;
 
-if (vkCreateGraphicsPipelines(mInit->mLogicalDevice, VK_NULL_HANDLE, 1,
-                              &pipelineInfo, nullptr, &pPipeline) != VK_SUCCESS)
-  throw std::runtime_error("Failed to create graphics pipeline!");
+  if (vkCreateGraphicsPipelines(mInit->mLogicalDevice, VK_NULL_HANDLE, 1,
+                                &pipelineInfo, nullptr,
+                                &pPipeline) != VK_SUCCESS)
+    throw std::runtime_error("Failed to create graphics pipeline!");
 
-vkDestroyShaderModule(mInit->mLogicalDevice, vShaderModule, nullptr);
-vkDestroyShaderModule(mInit->mLogicalDevice, fShaderModule, nullptr);
+  vkDestroyShaderModule(mInit->mLogicalDevice, vShaderModule, nullptr);
+  vkDestroyShaderModule(mInit->mLogicalDevice, fShaderModule, nullptr);
 }
 
 std::vector<char> VulkanRenderData::readShader(std::string_view pFilename) {
@@ -669,17 +679,21 @@ void VulkanRenderData::createUniformBuffers() {
 }
 
 void VulkanRenderData::createDescriptorPool() {
-  VkDescriptorPoolSize poolSize{};
-  Utils::zeroInitializeStruct(poolSize);
-  poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-  poolSize.descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-
+  VkDescriptorPoolSize poolSize[] = {
+      poolSize[0].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+      poolSize[0].descriptorCount = 1,
+          // static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT)};
+      poolSize[1].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+      poolSize[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT)
+    };
   VkDescriptorPoolCreateInfo poolInfo{};
   Utils::zeroInitializeStruct(poolInfo);
   poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-  poolInfo.poolSizeCount = 1;
-  poolInfo.pPoolSizes = &poolSize;
-  poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+  poolInfo.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+  poolInfo.poolSizeCount =
+      static_cast<uint32_t>(sizeof(poolSize) / sizeof(VkDescriptorPoolSize));
+  poolInfo.pPoolSizes = poolSize;
+  poolInfo.maxSets = 1000; // THIS MAY NOT BE CORRECT
 
   VK_CHECK(vkCreateDescriptorPool(mInit->mLogicalDevice, &poolInfo, nullptr,
                                   &mDescPool));
@@ -738,7 +752,7 @@ void VulkanRenderData::createCommandBuffers(size_t pBeginIndex,
 }
 
 void VulkanRenderData::createCommandBuffers() {
-  mCommandBuffers.resize(MAX_FRAMES_IN_FLIGHT * 2);
+  mCommandBuffers.resize(MAX_FRAMES_IN_FLIGHT * 3);
   VkCommandBufferAllocateInfo allocInfo{};
   Utils::zeroInitializeStruct(allocInfo);
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -882,6 +896,41 @@ void VulkanRenderData::recordCircCommandBuffer(VkCommandBuffer pCommandBuffer,
     throw std::runtime_error("Failed to record command buffer!");
 }
 
+void VulkanRenderData::recordImGuiCommandBuffer(VkCommandBuffer pCommandBuffer,
+                                                uint32_t pImageIndex) {
+  assert(mInit);
+  VkCommandBufferBeginInfo beginInfo{};
+  Utils::zeroInitializeStruct(beginInfo);
+  beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+  beginInfo.flags = 0;
+  beginInfo.pInheritanceInfo = nullptr;
+
+  if (vkBeginCommandBuffer(pCommandBuffer, &beginInfo) != VK_SUCCESS) {
+    throw std::runtime_error("Failed to begin recording command buffer!");
+  }
+
+  VkRenderPassBeginInfo renderPassInfo{};
+  Utils::zeroInitializeStruct(renderPassInfo);
+  renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+  renderPassInfo.renderPass = mRenderPassFinal;
+  renderPassInfo.framebuffer = mFramebuffers[pImageIndex];
+  renderPassInfo.renderArea.offset.x = 0;
+  renderPassInfo.renderArea.offset.y = 0;
+  renderPassInfo.renderArea.extent = mInit->mSwapChainExtent;
+  VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
+  renderPassInfo.clearValueCount = 1;
+  renderPassInfo.pClearValues = &clearColor;
+
+  vkCmdBeginRenderPass(pCommandBuffer, &renderPassInfo,
+                       VK_SUBPASS_CONTENTS_INLINE);
+
+  ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), pCommandBuffer);
+
+  vkCmdEndRenderPass(pCommandBuffer);
+
+  if (vkEndCommandBuffer(pCommandBuffer) != VK_SUCCESS)
+    throw std::runtime_error("Failed to record command buffer!");
+}
 void VulkanRenderData::createSyncObjects() {
   assert(mInit);
   mImgAvailSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
@@ -908,6 +957,12 @@ void VulkanRenderData::createSyncObjects() {
   }
 }
 
+void VulkanRenderData::prepareFrame() {
+  ImGui_ImplVulkan_NewFrame();
+  ImGui_ImplGlfw_NewFrame();
+  ImGui::NewFrame();
+}
+
 void VulkanRenderData::drawFrame(bool pFrameBufferResized) {
   assert(mInit);
   vkWaitForFences(mInit->mLogicalDevice, 1, &mInFlightFences[mCurrentFrame],
@@ -927,11 +982,19 @@ void VulkanRenderData::drawFrame(bool pFrameBufferResized) {
 
   vkResetFences(mInit->mLogicalDevice, 1, &mInFlightFences[mCurrentFrame]);
   vkResetCommandBuffer(mCommandBuffers[mCurrentFrame], 0);
+  vkResetCommandBuffer(mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT],
+                       0);
+  vkResetCommandBuffer(
+      mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT * 2], 0);
 
+
+  ImGui::Render();
   updateUniformBuffer(mCurrentFrame);
   recordQuadCommandBuffer(mCommandBuffers[mCurrentFrame], imageIndex);
   recordCircCommandBuffer(mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT],
                           imageIndex);
+  recordImGuiCommandBuffer(
+      mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT * 2], imageIndex);
 
   VkSubmitInfo submitInfo{};
   Utils::zeroInitializeStruct(submitInfo);
@@ -943,10 +1006,11 @@ void VulkanRenderData::drawFrame(bool pFrameBufferResized) {
   submitInfo.waitSemaphoreCount = 1;
   submitInfo.pWaitSemaphores = waitSemaphores;
   submitInfo.pWaitDstStageMask = waitStage;
-  submitInfo.commandBufferCount = 2;
+  submitInfo.commandBufferCount = 3;
   VkCommandBuffer commandBuffersUsed[] = {
       mCommandBuffers[mCurrentFrame],
-      mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT]};
+      mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT],
+      mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT * 2]};
   submitInfo.pCommandBuffers =
       commandBuffersUsed; //&mCommandBuffers[mCurrentFrame];
 
@@ -1007,8 +1071,8 @@ void VulkanRenderData::initNewEntity(bool pIsCircle) {
   if (pIsCircle) {
     // do something different
     vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
-                         mCommandBuffers.size() / 2,
-                         mCommandBuffers.data() + mCommandBuffers.size() / 2);
+                         mCommandBuffers.size() / 3,
+                         mCommandBuffers.data() + mCommandBuffers.size() / 3);
     /* vkDestroyBuffer(mInit->mLogicalDevice, mCircleIndexBuffer, nullptr); */
     /* vkFreeMemory(mInit->mLogicalDevice, mCircleIndexBuferMem, nullptr); */
     vkDestroyBuffer(mInit->mLogicalDevice, mCircVertexBuffer, nullptr);
@@ -1016,7 +1080,7 @@ void VulkanRenderData::initNewEntity(bool pIsCircle) {
 
     createVertexBuffer(mCircleVertices, mCircVertexBuffer,
                        mCircVertexBufferMem);
-    createCommandBuffers(mCommandBuffers.size() / 2, mCommandBuffers.size());
+    createCommandBuffers(mCommandBuffers.size() / 3, mCommandBuffers.size());
     return;
   }
 
@@ -1029,7 +1093,7 @@ void VulkanRenderData::initNewEntity(bool pIsCircle) {
 
   createVertexBuffer(mQuadVertices, mQuadVertexBuffer, mQuadVertexBufferMem);
   // createIndexBuffers();
-  createCommandBuffers(0, mCommandBuffers.size() / 2);
+  createCommandBuffers(0, mCommandBuffers.size() / 3);
 }
 
 void VulkanRenderData::drawIndexed(uint32_t pNumQuadsToDraw /*=0*/,
@@ -1037,12 +1101,6 @@ void VulkanRenderData::drawIndexed(uint32_t pNumQuadsToDraw /*=0*/,
   mNumQuadIndicesToDraw = pNumQuadsToDraw * 6; // 6 indicies per quad
   mNumCirclesIndicesToDraw = pNumCircsToDraw * 6;
 }
-
-void VulkanRenderData::insertQuad(const std::array<Vertex, 4> &pVertices,
-                                  const uint32_t pQuadNum) {}
-
-void VulkanRenderData::insertCircle(
-    const std::array<CircleVertex, 4> &pVertices, const uint32_t pCircleNum) {}
 
 void VulkanRenderData::clearVertices() {
   mQuadVertices.clear();
@@ -1090,8 +1148,9 @@ void VulkanRenderData::initImGUI() {
   initInfo.RenderPass = mRenderPassInit;
   initInfo.Subpass = 0;
   initInfo.MinImageCount = MAX_FRAMES_IN_FLIGHT;
+  initInfo.ImageCount = mSwapChainImages.size();
   initInfo.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
   initInfo.Allocator = nullptr;
-  initInfo.CheckVkResultFn = nullptr;
+  initInfo.CheckVkResultFn = check_vk_result;
   ImGui_ImplVulkan_Init(&initInfo);
 }
