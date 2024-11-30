@@ -13,8 +13,6 @@
 #include <vector>
 #include <vulkan/vulkan_core.h>
 
-class ImDrawData;
-
 class VulkanRenderData {
 public:
   explicit VulkanRenderData();

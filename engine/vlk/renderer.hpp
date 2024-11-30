@@ -5,6 +5,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include "Camera.hpp"
 #include "circleVertex.hpp"
 #include "textureVLK.hpp"
 #include "vertex.hpp"
@@ -23,6 +24,7 @@ public:
   Renderer(Renderer &r) = delete;
   Renderer(Renderer &&r) = delete;
   void setFrameBufferResized(bool pFrameBufferResized = false);
+  void setCamera(std::shared_ptr<Camera> pCamera) { mCamera = pCamera; }
 
   // Vulkan funcs
   void devWaitIdle();
@@ -42,6 +44,7 @@ public:
 private:
   std::shared_ptr<VulkanInit> mVLKInit;
   std::shared_ptr<WindowVLK> mWindowVLK;
+  std::shared_ptr<Camera> mCamera;
   VulkanRenderData mVLKData;
   bool mFrameBufferResized;
   bool mNewCircleAdded;

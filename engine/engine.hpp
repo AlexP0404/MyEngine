@@ -11,14 +11,9 @@ class Engine {
 protected:
   int m_ScreenWidth;
   int m_ScreenHeight;
-  int m_PaddleWidth;
-  int m_PaddleHeight;
   std::string m_GameTitle;
 
 public:
-  void setPaddleSize(int width, int height) {
-    m_PaddleWidth = width, m_PaddleHeight = height;
-  }
   void setScreenSize(const int screenWidth, const int screenHeight) {
     m_ScreenWidth = screenWidth, m_ScreenHeight = screenHeight;
   }
@@ -47,10 +42,6 @@ public:
   virtual void
   eraseTextures(const std::vector<std::string> &texturesToErase) = 0;
   virtual void eraseTexture(const std::string &textureName) = 0;
-  virtual void drawNet() = 0;
-  virtual void drawDot(int dotX, int dotY, int dotRadius) = 0;
-  virtual void drawPaddles(int p1X, int p1Y, int p2X, int p2Y) = 0;
-  virtual void playBounce() = 0;
 };
 
 #endif

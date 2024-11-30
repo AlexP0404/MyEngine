@@ -32,13 +32,10 @@ public:
   void clearScreen() override;
   void eraseTextures(const std::vector<std::string> &texturesToErase) override;
   void eraseTexture(const std::string &textureName) override;
-  void drawNet() override;
-  void drawDot(int dotX, int dotY, int dotRadius) override;
-  void drawPaddles(int p1X, int p1Y, int p2X, int p2Y) override;
-  void playBounce() override;
 
-  std::shared_ptr<Renderer> PFN_GetRenderer();
-  std::shared_ptr<WindowVLK> PFN_GetWindowVLK();
+  // will need a 3d mesh builder
+  uint32_t addMesh(const fs::path &meshPath, std::string_view textureName = "",
+                   glm::vec3 position = {0, 0, 0});
 
 private:
   std::shared_ptr<Renderer>
@@ -46,7 +43,11 @@ private:
                   // structures and has some basic drawing primitives
   std::shared_ptr<WindowVLK> mpWindow; // simple glfw window class setup
   std::shared_ptr<inputVLK> mInputs;
+  std::shared_ptr<Camera> mCamera;
   uint32_t mNumEntities;
+
+  void Update(float ts);
+  void checkCameraUpdate(float ts);
 };
 
 #endif

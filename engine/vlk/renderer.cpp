@@ -64,7 +64,6 @@ void Renderer::DrawCircle(const glm::vec2 &pPosition, const float pRadius,
                                       firstVertexIndex,
                                   circleQuad.begin(), circleQuad.end());
   // add circle to the list
-  /* mVLKData.initNewEntity(true); */
   mNewCircleAdded = true;
   mNumCirclesDrawn++;
 }

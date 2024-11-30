@@ -13,13 +13,12 @@
 #include <fstream>
 #include <stdexcept>
 
-static void check_vk_result(VkResult err)
-{
-    if (err == 0)
-        return;
-    fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
-    if (err < 0)
-        abort();
+static void check_vk_result(VkResult err) {
+  if (err == 0)
+    return;
+  fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
+  if (err < 0)
+    abort();
 }
 
 VulkanRenderData::VulkanRenderData() {
@@ -682,10 +681,10 @@ void VulkanRenderData::createDescriptorPool() {
   VkDescriptorPoolSize poolSize[] = {
       poolSize[0].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
       poolSize[0].descriptorCount = 1,
-          // static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT)};
+      // static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT)};
       poolSize[1].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-      poolSize[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT)
-    };
+      poolSize[1].descriptorCount =
+          static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT)};
   VkDescriptorPoolCreateInfo poolInfo{};
   Utils::zeroInitializeStruct(poolInfo);
   poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -987,7 +986,6 @@ void VulkanRenderData::drawFrame(bool pFrameBufferResized) {
   vkResetCommandBuffer(
       mCommandBuffers[mCurrentFrame + MAX_FRAMES_IN_FLIGHT * 2], 0);
 
-
   ImGui::Render();
   updateUniformBuffer(mCurrentFrame);
   recordQuadCommandBuffer(mCommandBuffers[mCurrentFrame], imageIndex);
@@ -1073,8 +1071,6 @@ void VulkanRenderData::initNewEntity(bool pIsCircle) {
     vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
                          mCommandBuffers.size() / 3,
                          mCommandBuffers.data() + mCommandBuffers.size() / 3);
-    /* vkDestroyBuffer(mInit->mLogicalDevice, mCircleIndexBuffer, nullptr); */
-    /* vkFreeMemory(mInit->mLogicalDevice, mCircleIndexBuferMem, nullptr); */
     vkDestroyBuffer(mInit->mLogicalDevice, mCircVertexBuffer, nullptr);
     vkFreeMemory(mInit->mLogicalDevice, mCircVertexBufferMem, nullptr);
 
@@ -1086,13 +1082,10 @@ void VulkanRenderData::initNewEntity(bool pIsCircle) {
 
   vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
                        mCommandBuffers.size() / 2, mCommandBuffers.data());
-  /* vkDestroyBuffer(mInit->mLogicalDevice, mQuadIndexBuffer, nullptr); */
-  /* vkFreeMemory(mInit->mLogicalDevice, mQuadIndexBuferMem, nullptr); */
   vkDestroyBuffer(mInit->mLogicalDevice, mQuadVertexBuffer, nullptr);
   vkFreeMemory(mInit->mLogicalDevice, mQuadVertexBufferMem, nullptr);
 
   createVertexBuffer(mQuadVertices, mQuadVertexBuffer, mQuadVertexBufferMem);
-  // createIndexBuffers();
   createCommandBuffers(0, mCommandBuffers.size() / 3);
 }
 

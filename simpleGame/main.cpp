@@ -14,11 +14,16 @@ int main() {
   bool shouldQuit = false;
 
   while (gameEngine.shouldQuit() == false) {
-    while (loopTimer.ElapsedMillis() < 10.f) // render every 10 ms
-      ;
+    // while (loopTimer.ElapsedMillis() < 10.f) // render every 10 ms
+    //   ;
     gameEngine.clearScreen();
-    bool isDemoOpen = true;
-    ImGui::ShowDemoWindow(&isDemoOpen);
+    // bool isDemoOpen = true;
+    // ImGui::ShowDemoWindow(&isDemoOpen);
+    {
+      ImGui::Begin("FPS Counter", nullptr, ImGuiWindowFlags_NoResize);
+      ImGui::Text("Average FPS: %.1f", ImGui::GetIO().Framerate);
+      ImGui::End();
+    }
 
     loopTimer.Reset();
     // gameEngine.drawDot(300, 200, 100);
