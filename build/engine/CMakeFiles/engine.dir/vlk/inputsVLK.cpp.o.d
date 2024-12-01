@@ -12,7 +12,11 @@ engine/CMakeFiles/engine.dir/vlk/inputsVLK.cpp.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /usr/include/GLFW/glfw3.h \
+ /usr/include/c++/13/initializer_list \
+ /usr/include/c++/13/x86_64-redhat-linux/bits/c++config.h \
+ /usr/include/c++/13/x86_64-redhat-linux/bits/os_defines.h \
+ /usr/include/c++/13/x86_64-redhat-linux/bits/cpu_defines.h \
+ /usr/include/c++/13/pstl/pstl_config.h /usr/include/GLFW/glfw3.h \
  /usr/lib/gcc/x86_64-redhat-linux/13/include/stddef.h \
  /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h

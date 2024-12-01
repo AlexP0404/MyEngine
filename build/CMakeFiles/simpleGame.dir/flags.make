@@ -6,5 +6,5 @@ CXX_DEFINES = -DENGINE_USE_VLK
 
 CXX_INCLUDES = -I/home/alexp/Repos/MyEngineDev/engine -I/home/alexp/Repos/MyEngineDev/engine/vlk -I/home/alexp/Repos/MyEngineDev/engine/../vendor/imgui -I/home/alexp/Repos/MyEngineDev/engine/../vendor/imgui/backends -I/home/alexp/Repos/MyEngineDev/engine/Vulkan::Headers -isystem /usr/include/AL
 
-CXX_FLAGS = -std=gnu++20
+CXX_FLAGS = -g -std=gnu++20
 

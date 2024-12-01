@@ -1202,6 +1202,8 @@ engine/CMakeFiles/engine.dir/__/vendor/imgui/imgui_widgets.cpp.o: /home/alexp/Re
   /usr/lib/gcc/x86_64-redhat-linux/13/include/xtestintrin.h
 
 engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/engine/vlk/engineVLK.cpp \
+  /home/alexp/Repos/MyEngineDev/engine/Camera.hpp \
+  /home/alexp/Repos/MyEngineDev/engine/Timer.hpp \
   /home/alexp/Repos/MyEngineDev/engine/engine.hpp \
   /home/alexp/Repos/MyEngineDev/engine/keyCodes.hpp \
   /home/alexp/Repos/MyEngineDev/engine/vlk/circleVertex.hpp \
@@ -1306,6 +1308,7 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/backward/auto_ptr.h \
   /usr/include/c++/13/backward/binders.h \
   /usr/include/c++/13/bit \
+  /usr/include/c++/13/bits/algorithmfwd.h \
   /usr/include/c++/13/bits/align.h \
   /usr/include/c++/13/bits/alloc_traits.h \
   /usr/include/c++/13/bits/allocated_ptr.h \
@@ -1320,6 +1323,7 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
+  /usr/include/c++/13/bits/chrono_io.h \
   /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
@@ -1380,10 +1384,12 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_mutex.h \
+  /usr/include/c++/13/bits/stl_algo.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
   /usr/include/c++/13/bits/stl_function.h \
+  /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
@@ -1396,6 +1402,7 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
+  /usr/include/c++/13/bits/uniform_int_dist.h \
   /usr/include/c++/13/bits/unique_ptr.h \
   /usr/include/c++/13/bits/unordered_map.h \
   /usr/include/c++/13/bits/uses_allocator.h \
@@ -1406,6 +1413,8 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
   /usr/include/c++/13/cfloat \
+  /usr/include/c++/13/charconv \
+  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cmath \
@@ -1430,6 +1439,7 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
   /usr/include/c++/13/filesystem \
+  /usr/include/c++/13/format \
   /usr/include/c++/13/initializer_list \
   /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
@@ -1446,6 +1456,7 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
+  /usr/include/c++/13/span \
   /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
@@ -1468,6 +1479,7 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
+  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/c++/13/x86_64-redhat-linux/bits/atomic_word.h \
   /usr/include/c++/13/x86_64-redhat-linux/bits/c++allocator.h \
@@ -1567,6 +1579,10 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/glm/ext/matrix_float4x3_precision.hpp \
   /usr/include/glm/ext/matrix_float4x4.hpp \
   /usr/include/glm/ext/matrix_float4x4_precision.hpp \
+  /usr/include/glm/ext/matrix_transform.hpp \
+  /usr/include/glm/ext/matrix_transform.inl \
+  /usr/include/glm/ext/scalar_constants.hpp \
+  /usr/include/glm/ext/scalar_constants.inl \
   /usr/include/glm/ext/scalar_int_sized.hpp \
   /usr/include/glm/ext/scalar_uint_sized.hpp \
   /usr/include/glm/ext/vector_bool2.hpp \
@@ -1602,6 +1618,8 @@ engine/CMakeFiles/engine.dir/vlk/engineVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/glm/fwd.hpp \
   /usr/include/glm/geometric.hpp \
   /usr/include/glm/glm.hpp \
+  /usr/include/glm/gtc/constants.hpp \
+  /usr/include/glm/gtc/constants.inl \
   /usr/include/glm/integer.hpp \
   /usr/include/glm/mat2x2.hpp \
   /usr/include/glm/mat2x3.hpp \
@@ -1681,6 +1699,11 @@ engine/CMakeFiles/engine.dir/vlk/inputsVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/include/bits/typesizes.h \
   /usr/include/bits/wchar.h \
   /usr/include/bits/wordsize.h \
+  /usr/include/c++/13/initializer_list \
+  /usr/include/c++/13/pstl/pstl_config.h \
+  /usr/include/c++/13/x86_64-redhat-linux/bits/c++config.h \
+  /usr/include/c++/13/x86_64-redhat-linux/bits/cpu_defines.h \
+  /usr/include/c++/13/x86_64-redhat-linux/bits/os_defines.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
@@ -1692,6 +1715,7 @@ engine/CMakeFiles/engine.dir/vlk/inputsVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
   /usr/lib/gcc/x86_64-redhat-linux/13/include/stdint.h
 
 engine/CMakeFiles/engine.dir/vlk/renderer.cpp.o: /home/alexp/Repos/MyEngineDev/engine/vlk/renderer.cpp \
+  /home/alexp/Repos/MyEngineDev/engine/Camera.hpp \
   /home/alexp/Repos/MyEngineDev/engine/vlk/circleVertex.hpp \
   /home/alexp/Repos/MyEngineDev/engine/vlk/renderer.hpp \
   /home/alexp/Repos/MyEngineDev/engine/vlk/textureVLK.hpp \
@@ -3068,13 +3092,7 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/c++/13/cstring:
 
-/usr/include/c++/13/bits/uniform_int_dist.h:
-
 /usr/include/c++/13/bits/stl_multiset.h:
-
-/usr/include/c++/13/bits/stl_algo.h:
-
-/usr/include/c++/13/bits/algorithmfwd.h:
 
 /usr/include/c++/13/algorithm:
 
@@ -3083,14 +3101,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /home/alexp/Repos/MyEngineDev/engine/vlk/textureVLK.cpp:
 
 /usr/include/glm/gtc/matrix_transform.hpp:
-
-/usr/include/glm/gtc/constants.inl:
-
-/usr/include/glm/ext/scalar_constants.hpp:
-
-/usr/include/glm/ext/matrix_transform.inl:
-
-/usr/include/glm/ext/matrix_transform.hpp:
 
 /usr/include/glm/ext/matrix_clip_space.inl:
 
@@ -3122,6 +3132,8 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/glm/mat4x3.hpp:
 
+/usr/include/glm/gtc/constants.inl:
+
 /usr/include/pthread.h:
 
 /usr/include/glm/matrix.hpp:
@@ -3133,10 +3145,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/include/glm/fwd.hpp:
 
 /usr/include/glm/ext/vector_uint4_sized.hpp:
-
-/usr/include/glm/ext/scalar_constants.inl:
-
-/usr/include/glm/ext/vector_uint3_sized.hpp:
 
 /usr/include/glm/ext/vector_uint3.hpp:
 
@@ -3174,6 +3182,28 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/glm/ext/vector_bool3.hpp:
 
+/usr/include/glm/ext/scalar_int_sized.hpp:
+
+/usr/include/glm/ext/vector_uint3_sized.hpp:
+
+/usr/include/glm/ext/scalar_constants.inl:
+
+/usr/include/glm/ext/scalar_constants.hpp:
+
+/usr/include/glm/ext/matrix_transform.inl:
+
+/usr/include/glm/ext/matrix_transform.hpp:
+
+/usr/include/glm/ext/matrix_float4x3.hpp:
+
+/usr/include/glm/ext/matrix_float4x2.hpp:
+
+/usr/include/glm/ext/matrix_float3x4_precision.hpp:
+
+/usr/include/glm/ext/matrix_float3x3_precision.hpp:
+
+/usr/include/glm/ext/matrix_float3x2_precision.hpp:
+
 /usr/lib/gcc/x86_64-redhat-linux/13/include/mwaitintrin.h:
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/sgxintrin.h:
@@ -3187,8 +3217,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/lib/gcc/x86_64-redhat-linux/13/include/cetintrin.h:
 
 /usr/include/c++/13/bits/refwrap.h:
-
-/usr/include/glm/ext/matrix_float3x2_precision.hpp:
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/hresetintrin.h:
 
@@ -3212,11 +3240,11 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/avx512vbmivlintrin.h:
 
+/usr/include/c++/13/span:
+
 /usr/lib/gcc/x86_64-redhat-linux/13/include/avx512dqintrin.h:
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/avx512bf16vlintrin.h:
-
-/usr/include/glm/ext/matrix_float4x2.hpp:
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/avx5124vnniwintrin.h:
 
@@ -3232,11 +3260,13 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/stdlib.h:
 
-/usr/include/glm/detail/func_integer.inl:
-
 /usr/include/strings.h:
 
 /usr/include/c++/13/iomanip:
+
+/usr/include/glm/ext/matrix_float4x3_precision.hpp:
+
+/usr/include/endian.h:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/os_defines.h:
 
@@ -3384,9 +3414,9 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/KHR/khrplatform.h:
 
-/usr/include/c++/13/bits/stl_heap.h:
-
 /usr/include/syscall.h:
+
+/usr/include/c++/13/bits/stl_heap.h:
 
 /usr/include/c++/13/bits/atomic_lockfree_defines.h:
 
@@ -3568,6 +3598,10 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/syslimits.h:
 
+/usr/include/glm/ext/matrix_float4x2_precision.hpp:
+
+/usr/include/sys/cdefs.h:
+
 /usr/include/glm/detail/type_vec3.hpp:
 
 /usr/include/vk_video/vulkan_video_codec_av1std.h:
@@ -3645,6 +3679,12 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/include/c++/13/cstddef:
 
 /usr/include/bits/flt-eval-method.h:
+
+/usr/include/glm/ext/matrix_float3x3.hpp:
+
+/usr/lib/gcc/x86_64-redhat-linux/13/include/lzcntintrin.h:
+
+/usr/include/c++/13/bits/chrono.h:
 
 /usr/include/bits/types/__locale_t.h:
 
@@ -3758,6 +3798,8 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/bits/struct_rwlock.h:
 
+/usr/include/c++/13/bits/stl_algo.h:
+
 /usr/include/c++/13/tr1/poly_hermite.tcc:
 
 /usr/include/bits/types/time_t.h:
@@ -3812,8 +3854,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/bits/types/wint_t.h:
 
-/usr/include/glm/ext/scalar_int_sized.hpp:
-
 /usr/include/bits/types/struct_timespec.h:
 
 /usr/include/c++/13/ios:
@@ -3866,6 +3906,8 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/c++/13/bits/locale_classes.tcc:
 
+/usr/include/c++/13/bits/uniform_int_dist.h:
+
 /usr/lib/gcc/x86_64-redhat-linux/13/include/clwbintrin.h:
 
 /usr/include/bits/types/siginfo_t.h:
@@ -3906,6 +3948,14 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/tsxldtrkintrin.h:
 
+/usr/include/glm/ext/matrix_float4x4_precision.hpp:
+
+/usr/include/math.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/13/include/avx512vp2intersectintrin.h:
+
+/usr/include/c++/13/cstdio:
+
 /usr/lib/gcc/x86_64-redhat-linux/13/include/wbnoinvdintrin.h:
 
 /usr/lib/gcc/x86_64-redhat-linux/13/include/x86gprintrin.h:
@@ -3926,6 +3976,8 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /home/alexp/Repos/MyEngineDev/vendor/imgui/imgui_draw.cpp:
 
+/home/alexp/Repos/MyEngineDev/engine/Timer.hpp:
+
 /usr/include/c++/13/bits/stl_vector.h:
 
 /usr/include/c++/13/sstream:
@@ -3936,9 +3988,21 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /home/alexp/Repos/MyEngineDev/vendor/imgui/imgui_tables.cpp:
 
+/usr/include/c++/13/x86_64-redhat-linux/bits/basic_file.h:
+
+/usr/include/glm/integer.hpp:
+
+/usr/include/glm/ext/matrix_float4x4.hpp:
+
+/usr/include/glm/detail/func_trigonometric.inl:
+
 /home/alexp/Repos/MyEngineDev/engine/vlk/engineVLK.cpp:
 
 /usr/include/c++/13/bits/codecvt.h:
+
+/usr/include/glm/detail/func_integer.inl:
+
+/home/alexp/Repos/MyEngineDev/engine/Camera.hpp:
 
 /home/alexp/Repos/MyEngineDev/engine/engine.hpp:
 
@@ -4020,6 +4084,12 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/c++/13/backward/binders.h:
 
+/usr/include/c++/13/charconv:
+
+/usr/include/c++/13/bits/algorithmfwd.h:
+
+/usr/include/glm/ext/matrix_double2x3_precision.hpp:
+
 /usr/include/c++/13/bits/align.h:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/gthr.h:
@@ -4033,6 +4103,8 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/include/bits/uio_lim.h:
 
 /usr/include/c++/13/unordered_map:
+
+/usr/include/c++/13/variant:
 
 /usr/include/c++/13/bits/atomic_base.h:
 
@@ -4050,15 +4122,13 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/c++/13/bits/charconv.h:
 
+/usr/include/c++/13/bits/chrono_io.h:
+
 /usr/include/c++/13/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/13/bits/enable_special_members.h:
 
 /usr/include/c++/13/bits/erase_if.h:
-
-/usr/include/sys/cdefs.h:
-
-/usr/include/glm/ext/matrix_float4x2_precision.hpp:
 
 /usr/include/c++/13/bits/exception_ptr.h:
 
@@ -4134,14 +4204,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/c++/13/bits/ranges_util.h:
 
-/usr/include/c++/13/x86_64-redhat-linux/bits/basic_file.h:
-
-/usr/include/glm/integer.hpp:
-
-/usr/include/glm/detail/func_trigonometric.inl:
-
-/usr/include/glm/ext/matrix_float4x4.hpp:
-
 /usr/include/bits/sigstack.h:
 
 /usr/include/c++/13/bits/sstream.tcc:
@@ -4170,15 +4232,13 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/c++/13/optional:
 
+/usr/include/c++/13/chrono:
+
 /usr/include/c++/13/climits:
 
 /usr/include/bits/math-vector.h:
 
 /usr/include/glm/ext/matrix_double2x4.hpp:
-
-/usr/include/c++/13/stdexcept:
-
-/usr/include/c++/13/clocale:
 
 /usr/include/c++/13/ctime:
 
@@ -4191,6 +4251,12 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/include/glm/ext/vector_double2_precision.hpp:
 
 /usr/include/c++/13/filesystem:
+
+/usr/include/c++/13/stdexcept:
+
+/usr/include/c++/13/clocale:
+
+/usr/include/c++/13/format:
 
 /usr/include/c++/13/locale:
 
@@ -4213,10 +4279,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/include/c++/13/x86_64-redhat-linux/bits/c++allocator.h:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/c++locale.h:
-
-/usr/include/endian.h:
-
-/usr/include/glm/ext/matrix_float4x3_precision.hpp:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/error_constants.h:
 
@@ -4282,8 +4344,6 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 
 /usr/include/glm/ext/matrix_double2x3.hpp:
 
-/usr/include/glm/ext/matrix_double2x3_precision.hpp:
-
 /usr/include/c++/13/type_traits:
 
 /usr/include/features-time64.h:
@@ -4319,23 +4379,3 @@ engine/CMakeFiles/engine.dir/vlk/windowVLK.cpp.o: /home/alexp/Repos/MyEngineDev/
 /usr/include/glm/detail/compute_vector_relational.hpp:
 
 /usr/include/glm/ext/matrix_float2x4_precision.hpp:
-
-/usr/lib/gcc/x86_64-redhat-linux/13/include/lzcntintrin.h:
-
-/usr/include/c++/13/bits/chrono.h:
-
-/usr/include/glm/ext/matrix_float3x3.hpp:
-
-/usr/include/glm/ext/matrix_float3x3_precision.hpp:
-
-/usr/include/glm/ext/matrix_float3x4_precision.hpp:
-
-/usr/include/glm/ext/matrix_float4x3.hpp:
-
-/usr/include/math.h:
-
-/usr/lib/gcc/x86_64-redhat-linux/13/include/avx512vp2intersectintrin.h:
-
-/usr/include/c++/13/cstdio:
-
-/usr/include/glm/ext/matrix_float4x4_precision.hpp:

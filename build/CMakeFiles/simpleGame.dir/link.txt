@@ -1,1 +1,1 @@
-/bin/c++ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o -o simpleGame  engine/libengine.a /lib64/libvulkan.so /usr/lib64/libglfw.so.3.3 /usr/lib64/libopenal.so 
+/bin/c++ -g CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o -o simpleGame  engine/libengine.a /lib64/libvulkan.so /usr/lib64/libglfw.so.3.3 /usr/lib64/libopenal.so 

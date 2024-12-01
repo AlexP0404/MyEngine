@@ -21,11 +21,15 @@ public:
   void prepareFrame(); // used for IMGUI preparing
   void drawFrame(bool pFrameBufferResized);
   void devWaitIdle();
+  void setViewMatrix(const glm::mat4 &viewMat) { mUbo.viewMat = viewMat; }
   // these are used by the renderer class
 
-  void updateEntityPos(uint32_t pEntityID, glm::vec2 pCurrentPos);
-  void initNewEntity(bool pIsCircle = false);
-  void drawIndexed(uint32_t pNumQuadsToDraw = 0, uint32_t pNumCircsToDraw = 0);
+  void updateEntityPos(uint32_t pEntityID, glm::vec3 pCurrentPos);
+  void initNewQuad();
+  void initNewCube();
+  void initNewCirc();
+  void drawIndexed(uint32_t pNumQuadsToDraw = 0, uint32_t pNumCircsToDraw = 0,
+                   uint32_t pNumCubesToDraw = 0);
 
   // these should be changed to builder functions that take in a location,
   // and size/radius and maybe ID
@@ -39,8 +43,11 @@ public:
   const int MAX_FRAMES_IN_FLIGHT = 2;
   const int MAX_QUAD_COUNT = 400;
   const int MAX_VERTEX_COUNT = MAX_QUAD_COUNT * 4;
+  const int MAX_CUBE_VTX_COUNT = MAX_VERTEX_COUNT * 2;
   const int MAX_INDEX_COUNT = MAX_QUAD_COUNT * 6;
+  const int MAX_CUBE_IDX_COUNT = MAX_INDEX_COUNT * 6;
   std::vector<Vertex> mQuadVertices;
+  std::vector<Vertex> mCubeVertices;
   std::vector<CircleVertex> mCircleVertices;
 
 private:
@@ -71,10 +78,15 @@ private:
   VkBuffer mQuadIndexBuffer;
   VkDeviceMemory mQuadIndexBuferMem;
   std::vector<uint16_t> mQuadIndices;
-  VkBuffer mCircleIndexBuffer;
-  VkDeviceMemory mCircleIndexBuferMem;
-  std::vector<uint16_t> mCircleIndices;
 
+  VkBuffer mCubeVertexBuffer;
+  VkDeviceMemory mCubeVertexBufferMem;
+  VkBuffer mCubeIndexBuffer;
+  VkDeviceMemory mCubeIndexBuferMem;
+  std::vector<uint16_t> mCubeIndices;
+  // VkBuffer mCircleIndexBuffer;
+  // VkDeviceMemory mCircleIndexBuferMem;
+  // std::vector<uint16_t> mCircleIndices;
   VkBuffer mCircVertexBuffer;
   VkDeviceMemory mCircVertexBufferMem;
 
@@ -86,9 +98,6 @@ private:
   std::vector<VkSemaphore> mImgAvailSemaphores;
   std::vector<VkSemaphore> mRndrFinSemaphores;
   std::vector<VkFence> mInFlightFences;
-
-  // TODO MAKE AN IMGUI DRAWING FUNCTION SIMILAR TO recordXCommandBuffer(...)
-  // FUNCTIONS THAT ARE ALREADY THERE
 
 private:
   void initQueues();
@@ -139,8 +148,9 @@ private:
 private:
   std::shared_ptr<VulkanInit> mInit;
   uint32_t mCurrentFrame;
-  uint32_t mNumQuadIndicesToDraw;
-  uint32_t mNumCirclesIndicesToDraw;
+  uint32_t mNumQuadIndicesToDraw = 0;
+  uint32_t mNumCubeIndicesToDraw = 0;
+  uint32_t mNumCirclesIndicesToDraw = 0;
 };
 
 #endif

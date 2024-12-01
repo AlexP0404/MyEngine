@@ -5,7 +5,8 @@
 #include <glm/glm.hpp>
 
 struct UBO {
-  glm::vec4 movedPos[400];
+  glm::vec3 worldPos[400];
+  glm::mat4 viewMat;
 };
 
 #endif // !UBO_HPP

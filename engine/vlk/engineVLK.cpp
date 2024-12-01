@@ -10,6 +10,7 @@ bool EngineVLK::init() {
   mpWindow =
       std::make_shared<WindowVLK>(m_ScreenWidth, m_ScreenHeight, m_GameTitle);
   mCamera = std::make_shared<Camera>();
+  mCamera->MovementSpeed = 1.f;
   mInputs = std::make_shared<inputVLK>(mpWindow->getWindowHandle());
 
   mpRenderer = std::make_shared<Renderer>(mpWindow, m_GameTitle);
@@ -85,21 +86,30 @@ void EngineVLK::renderScreen() {
   updateTimer.Reset();
 }
 
+void EngineVLK::addCube() {
+  mpRenderer->DrawCube(mCamera->Position, {1, 0, 0}, 100, mNumEntities++);
+}
+
 // will be used for more updates like movement of meshes
 void EngineVLK::Update(float ts) { checkCameraUpdate(ts); }
 
 void EngineVLK::checkCameraUpdate(float ts) {
-  if (mInputs->IsKeyDown(KeyCode::Down)) {
+  if (mInputs->AreTheseKeyDown({KeyCode::Down, KeyCode::S})) {
     mCamera->ProcessKeyboard(BACKWARD, ts);
   }
-  if (mInputs->IsKeyDown(KeyCode::Up)) {
+  if (mInputs->AreTheseKeyDown({KeyCode::Up, KeyCode::W})) {
     mCamera->ProcessKeyboard(FORWARD, ts);
   }
-  if (mInputs->IsKeyDown(KeyCode::Left)) {
+  if (mInputs->AreTheseKeyDown({KeyCode::Left, KeyCode::A})) {
     mCamera->ProcessKeyboard(LEFT, ts);
   }
-  if (mInputs->IsKeyDown(KeyCode::Right)) {
+  if (mInputs->AreTheseKeyDown({KeyCode::Right, KeyCode::D})) {
     mCamera->ProcessKeyboard(RIGHT, ts);
+  }
+  if (mInputs->MouseEvent() == true) {
+    mCamera->ProcessMouseScroll(mInputs->MouseScroll());
+    mCamera->ProcessMouseMovement(mInputs->MouseX(), mInputs->MouseY());
+    mInputs->resetMouseVals();
   }
 }
 

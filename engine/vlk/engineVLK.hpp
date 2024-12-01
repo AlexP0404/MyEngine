@@ -37,6 +37,10 @@ public:
   uint32_t addMesh(const fs::path &meshPath, std::string_view textureName = "",
                    glm::vec3 position = {0, 0, 0});
 
+  void addCube();
+  glm::mat4 GetViewMat() { return mCamera->GetViewMatrix(); }
+  Camera *GetCamera() { return mCamera.get(); }
+
 private:
   std::shared_ptr<Renderer>
       mpRenderer; // render class that sets up vulkan and handles all internal

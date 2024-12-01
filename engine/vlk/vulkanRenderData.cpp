@@ -42,10 +42,15 @@ VulkanRenderData::~VulkanRenderData() {
   vkDestroyDescriptorPool(mInit->mLogicalDevice, mDescPool, nullptr);
   vkDestroyDescriptorSetLayout(mInit->mLogicalDevice, mDescSetLayout, nullptr);
 
-  vkDestroyBuffer(mInit->mLogicalDevice, mCircleIndexBuffer, nullptr);
-  vkFreeMemory(mInit->mLogicalDevice, mCircleIndexBuferMem, nullptr);
+  // vkDestroyBuffer(mInit->mLogicalDevice, mCircleIndexBuffer, nullptr);
+  // vkFreeMemory(mInit->mLogicalDevice, mCircleIndexBuferMem, nullptr);
   vkDestroyBuffer(mInit->mLogicalDevice, mCircVertexBuffer, nullptr);
   vkFreeMemory(mInit->mLogicalDevice, mCircVertexBufferMem, nullptr);
+
+  vkDestroyBuffer(mInit->mLogicalDevice, mCubeIndexBuffer, nullptr);
+  vkFreeMemory(mInit->mLogicalDevice, mCubeIndexBuferMem, nullptr);
+  vkDestroyBuffer(mInit->mLogicalDevice, mCubeVertexBuffer, nullptr);
+  vkFreeMemory(mInit->mLogicalDevice, mCubeVertexBufferMem, nullptr);
 
   vkDestroyBuffer(mInit->mLogicalDevice, mQuadIndexBuffer, nullptr);
   vkFreeMemory(mInit->mLogicalDevice, mQuadIndexBuferMem, nullptr);
@@ -557,8 +562,10 @@ void VulkanRenderData::copyBuffer(VkBuffer pSrcBuffer, VkBuffer pDstBuffer,
 }
 
 void VulkanRenderData::createVertexBuffers() {
+  mCubeVertices.resize(MAX_VERTEX_COUNT);
   mQuadVertices.resize(MAX_VERTEX_COUNT);
   mCircleVertices.resize(MAX_VERTEX_COUNT);
+  createVertexBuffer(mCubeVertices, mCubeVertexBuffer, mCubeVertexBufferMem);
   createVertexBuffer(mQuadVertices, mQuadVertexBuffer, mQuadVertexBufferMem);
   createVertexBuffer(mCircleVertices, mCircVertexBuffer, mCircVertexBufferMem);
 }
@@ -612,6 +619,7 @@ uint32_t VulkanRenderData::findMemoryType(uint32_t pTypeFilter,
 void VulkanRenderData::createIndexBuffers() {
   // fill index array (may be wasteful idk)
   mQuadIndices.resize(MAX_INDEX_COUNT);
+  mCubeIndices.resize(MAX_CUBE_IDX_COUNT);
   uint32_t offset = 0;
   for (size_t i = 0; i < MAX_INDEX_COUNT; i += 6) {
     mQuadIndices[i + 0] = 0 + offset;
@@ -623,10 +631,38 @@ void VulkanRenderData::createIndexBuffers() {
 
     offset += 4;
   }
-  mCircleIndices = mQuadIndices;
+  offset = 0;
+  std::vector<uint16_t> singleCube = {// Top
+                                      2, 6, 7, 2, 3, 7,
+
+                                      // Bottom
+                                      0, 4, 5, 0, 1, 5,
+
+                                      // Left
+                                      0, 2, 6, 0, 4, 6,
+
+                                      // Right
+                                      1, 3, 7, 1, 5, 7,
+
+                                      // Front
+                                      0, 2, 3, 0, 1, 3,
+
+                                      // Back
+                                      4, 6, 7, 4, 5, 7};
+  for (int i = 0; i < MAX_CUBE_IDX_COUNT; i += 6 * 6) {
+    for (auto &idx : singleCube) {
+      idx += offset;
+    }
+    mCubeIndices.insert(mCubeIndices.end(), singleCube.begin(),
+                        singleCube.end());
+    offset += 8;
+  }
+  // mCircleIndices = mQuadIndices;
 
   createIndexBuffer(mQuadIndices, mQuadIndexBuffer, mQuadIndexBuferMem);
-  createIndexBuffer(mCircleIndices, mCircleIndexBuffer, mCircleIndexBuferMem);
+  createIndexBuffer(mCubeIndices, mCubeIndexBuffer, mCubeIndexBuferMem);
+  // createIndexBuffer(mCircleIndices, mCircleIndexBuffer,
+  // mCircleIndexBuferMem);
 }
 
 void VulkanRenderData::createIndexBuffer(std::vector<uint16_t> pIndices,
@@ -811,18 +847,23 @@ void VulkanRenderData::recordQuadCommandBuffer(VkCommandBuffer pCommandBuffer,
   scissor.extent = mInit->mSwapChainExtent;
   vkCmdSetScissor(pCommandBuffer, 0, 1, &scissor);
 
-  VkBuffer vertexBuffers[] = {mQuadVertexBuffer};
+  VkBuffer vertexBuffers[] = {mCubeVertexBuffer};
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(pCommandBuffer, 0, 1, vertexBuffers, offsets);
 
-  vkCmdBindIndexBuffer(pCommandBuffer, mQuadIndexBuffer, 0,
-                       VK_INDEX_TYPE_UINT16);
+  // vkCmdBindIndexBuffer(pCommandBuffer, mQuadIndexBuffer, 0,
+  //                      VK_INDEX_TYPE_UINT16);
 
   vkCmdBindDescriptorSets(pCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                           mQuadPipelineLayout, 0, 1, &mDescSets[mCurrentFrame],
                           0, nullptr);
 
-  vkCmdDrawIndexed(pCommandBuffer, mNumQuadIndicesToDraw, 1, 0, 0, 0);
+  // vkCmdDrawIndexed(pCommandBuffer, mNumQuadIndicesToDraw, 1, 0, 0, 0);
+
+  vkCmdBindIndexBuffer(pCommandBuffer, mCubeIndexBuffer, 0,
+                       VK_INDEX_TYPE_UINT16);
+
+  vkCmdDrawIndexed(pCommandBuffer, mNumCubeIndicesToDraw, 1, 0, 0, 0);
 
   vkCmdEndRenderPass(pCommandBuffer);
 
@@ -880,8 +921,8 @@ void VulkanRenderData::recordCircCommandBuffer(VkCommandBuffer pCommandBuffer,
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(pCommandBuffer, 0, 1, vertexBuffers, offsets);
 
-  vkCmdBindIndexBuffer(pCommandBuffer, mCircleIndexBuffer, 0,
-                       VK_INDEX_TYPE_UINT16);
+  vkCmdBindIndexBuffer(pCommandBuffer, /*mCircleIndexBuffer*/ mQuadIndexBuffer,
+                       0, VK_INDEX_TYPE_UINT16);
 
   vkCmdBindDescriptorSets(pCommandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                           mCirclePipelineLayout, 0, 1,
@@ -916,7 +957,7 @@ void VulkanRenderData::recordImGuiCommandBuffer(VkCommandBuffer pCommandBuffer,
   renderPassInfo.renderArea.offset.x = 0;
   renderPassInfo.renderArea.offset.y = 0;
   renderPassInfo.renderArea.extent = mInit->mSwapChainExtent;
-  VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
+  VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 0.0f}}};
   renderPassInfo.clearValueCount = 1;
   renderPassInfo.pClearValues = &clearColor;
 
@@ -1045,14 +1086,13 @@ void VulkanRenderData::drawFrame(bool pFrameBufferResized) {
 }
 
 void VulkanRenderData::updateEntityPos(uint32_t pEntityID,
-                                       glm::vec2 pCurrentPos) {
+                                       glm::vec3 pCurrentPos) {
   // this needs to take the difference between the current vertex/quad position
   // and the one saved in the vertex array, and store that value in the mUBOdata
   // buffer
-  glm::vec4 posDiff = {pCurrentPos.x - mQuadVertices[pEntityID * 4].pos.x,
-                       pCurrentPos.y - mQuadVertices[pEntityID * 4].pos.y,
-                       glm::vec2(0.0f)}; // this may be backwards
-  mUbo.movedPos[pEntityID] = posDiff;
+  //
+  // this is bad and needs to change
+  mUbo.worldPos[pEntityID] = pCurrentPos - mQuadVertices[pEntityID * 4].pos;
 }
 
 void VulkanRenderData::updateUniformBuffer(uint32_t pCurrentImage) {
@@ -1064,24 +1104,10 @@ void VulkanRenderData::updateUniformBuffer(uint32_t pCurrentImage) {
   memcpy(mUniformBuffersMapped[pCurrentImage], &stagedUBO, sizeof(UBO));
 }
 
-void VulkanRenderData::initNewEntity(bool pIsCircle) {
+void VulkanRenderData::initNewQuad() {
   vkDeviceWaitIdle(mInit->mLogicalDevice); // this is terrible
-  if (pIsCircle) {
-    // do something different
-    vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
-                         mCommandBuffers.size() / 3,
-                         mCommandBuffers.data() + mCommandBuffers.size() / 3);
-    vkDestroyBuffer(mInit->mLogicalDevice, mCircVertexBuffer, nullptr);
-    vkFreeMemory(mInit->mLogicalDevice, mCircVertexBufferMem, nullptr);
-
-    createVertexBuffer(mCircleVertices, mCircVertexBuffer,
-                       mCircVertexBufferMem);
-    createCommandBuffers(mCommandBuffers.size() / 3, mCommandBuffers.size());
-    return;
-  }
-
   vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
-                       mCommandBuffers.size() / 2, mCommandBuffers.data());
+                       mCommandBuffers.size() / 3, mCommandBuffers.data());
   vkDestroyBuffer(mInit->mLogicalDevice, mQuadVertexBuffer, nullptr);
   vkFreeMemory(mInit->mLogicalDevice, mQuadVertexBufferMem, nullptr);
 
@@ -1089,16 +1115,44 @@ void VulkanRenderData::initNewEntity(bool pIsCircle) {
   createCommandBuffers(0, mCommandBuffers.size() / 3);
 }
 
+void VulkanRenderData::initNewCirc() {
+  vkDeviceWaitIdle(mInit->mLogicalDevice); // this is terrible
+  vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
+                       mCommandBuffers.size() / 3,
+                       mCommandBuffers.data() + mCommandBuffers.size() / 3);
+  vkDestroyBuffer(mInit->mLogicalDevice, mCircVertexBuffer, nullptr);
+  vkFreeMemory(mInit->mLogicalDevice, mCircVertexBufferMem, nullptr);
+
+  createVertexBuffer(mCircleVertices, mCircVertexBuffer, mCircVertexBufferMem);
+  createCommandBuffers(mCommandBuffers.size() / 3,
+                       mCommandBuffers.size() + mCommandBuffers.size() / 3);
+}
+
+void VulkanRenderData::initNewCube() {
+  vkDeviceWaitIdle(mInit->mLogicalDevice); // this is terrible
+  vkFreeCommandBuffers(mInit->mLogicalDevice, mCommandPool,
+                       mCommandBuffers.size() / 3, mCommandBuffers.data());
+  vkDestroyBuffer(mInit->mLogicalDevice, mCubeVertexBuffer, nullptr);
+  vkFreeMemory(mInit->mLogicalDevice, mCubeVertexBufferMem, nullptr);
+
+  createVertexBuffer(mCubeVertices, mCubeVertexBuffer, mCubeVertexBufferMem);
+  createCommandBuffers(0, mCommandBuffers.size() / 3);
+}
+
 void VulkanRenderData::drawIndexed(uint32_t pNumQuadsToDraw /*=0*/,
-                                   uint32_t pNumCircsToDraw) {
+                                   uint32_t pNumCircsToDraw,
+                                   uint32_t pNumCubesToDraw) {
   mNumQuadIndicesToDraw = pNumQuadsToDraw * 6; // 6 indicies per quad
   mNumCirclesIndicesToDraw = pNumCircsToDraw * 6;
+  mNumCubeIndicesToDraw = pNumCubesToDraw * 6 * 6;
 }
 
 void VulkanRenderData::clearVertices() {
   mQuadVertices.clear();
+  mCubeVertices.clear();
   mCircleVertices.clear();
   mQuadVertices.resize(MAX_VERTEX_COUNT);
+  mCubeVertices.resize(MAX_CUBE_VTX_COUNT);
   mCircleVertices.resize(MAX_VERTEX_COUNT);
 }
 
@@ -1118,8 +1172,7 @@ void VulkanRenderData::recreateSwapchain() {
   createImageViews();
   createFramebuffers();
 }
-// TODO:: design the command buffer implementation so that the renderer is able
-// to batch together commands
+
 void VulkanRenderData::initImGUI() {
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();

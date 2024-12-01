@@ -4,7 +4,7 @@
 CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/simpleGame/main.cpp \
   /home/alexp/Repos/MyEngineDev/vendor/imgui/imconfig.h \
   /home/alexp/Repos/MyEngineDev/vendor/imgui/imgui.h \
-  /home/alexp/Repos/MyEngineDev/engine/Timer.hpp \
+  /home/alexp/Repos/MyEngineDev/engine/Camera.hpp \
   /home/alexp/Repos/MyEngineDev/engine/engine.hpp \
   /home/alexp/Repos/MyEngineDev/engine/keyCodes.hpp \
   /home/alexp/Repos/MyEngineDev/engine/vlk/circleVertex.hpp \
@@ -109,7 +109,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/backward/auto_ptr.h \
   /usr/include/c++/13/backward/binders.h \
   /usr/include/c++/13/bit \
-  /usr/include/c++/13/bits/algorithmfwd.h \
   /usr/include/c++/13/bits/align.h \
   /usr/include/c++/13/bits/alloc_traits.h \
   /usr/include/c++/13/bits/allocated_ptr.h \
@@ -124,7 +123,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
-  /usr/include/c++/13/bits/chrono_io.h \
   /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
@@ -185,12 +183,10 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
   /usr/include/c++/13/bits/std_mutex.h \
-  /usr/include/c++/13/bits/stl_algo.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
   /usr/include/c++/13/bits/stl_function.h \
-  /usr/include/c++/13/bits/stl_heap.h \
   /usr/include/c++/13/bits/stl_iterator.h \
   /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
   /usr/include/c++/13/bits/stl_iterator_base_types.h \
@@ -203,7 +199,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
-  /usr/include/c++/13/bits/uniform_int_dist.h \
   /usr/include/c++/13/bits/unique_ptr.h \
   /usr/include/c++/13/bits/unordered_map.h \
   /usr/include/c++/13/bits/uses_allocator.h \
@@ -214,8 +209,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
   /usr/include/c++/13/cfloat \
-  /usr/include/c++/13/charconv \
-  /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cmath \
@@ -240,7 +233,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
   /usr/include/c++/13/filesystem \
-  /usr/include/c++/13/format \
   /usr/include/c++/13/initializer_list \
   /usr/include/c++/13/iomanip \
   /usr/include/c++/13/ios \
@@ -257,7 +249,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/pstl/pstl_config.h \
   /usr/include/c++/13/ratio \
-  /usr/include/c++/13/span \
   /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
@@ -280,7 +271,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
   /usr/include/c++/13/unordered_map \
-  /usr/include/c++/13/variant \
   /usr/include/c++/13/vector \
   /usr/include/c++/13/x86_64-redhat-linux/bits/atomic_word.h \
   /usr/include/c++/13/x86_64-redhat-linux/bits/c++allocator.h \
@@ -380,6 +370,10 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/glm/ext/matrix_float4x3_precision.hpp \
   /usr/include/glm/ext/matrix_float4x4.hpp \
   /usr/include/glm/ext/matrix_float4x4_precision.hpp \
+  /usr/include/glm/ext/matrix_transform.hpp \
+  /usr/include/glm/ext/matrix_transform.inl \
+  /usr/include/glm/ext/scalar_constants.hpp \
+  /usr/include/glm/ext/scalar_constants.inl \
   /usr/include/glm/ext/scalar_int_sized.hpp \
   /usr/include/glm/ext/scalar_uint_sized.hpp \
   /usr/include/glm/ext/vector_bool2.hpp \
@@ -415,6 +409,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
   /usr/include/glm/fwd.hpp \
   /usr/include/glm/geometric.hpp \
   /usr/include/glm/glm.hpp \
+  /usr/include/glm/gtc/constants.hpp \
+  /usr/include/glm/gtc/constants.inl \
   /usr/include/glm/integer.hpp \
   /usr/include/glm/mat2x2.hpp \
   /usr/include/glm/mat2x3.hpp \
@@ -540,6 +536,10 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/glm/integer.hpp:
 
+/usr/include/glm/gtc/constants.inl:
+
+/usr/include/glm/gtc/constants.hpp:
+
 /usr/include/glm/glm.hpp:
 
 /usr/include/glm/fwd.hpp:
@@ -576,8 +576,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/glm/ext/vector_double2.hpp:
 
-/usr/include/glm/ext/vector_bool4.hpp:
-
 /usr/include/glm/matrix.hpp:
 
 /usr/include/glm/ext/vector_bool3.hpp:
@@ -588,6 +586,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/glm/ext/scalar_uint_sized.hpp:
 
+/usr/include/glm/ext/scalar_constants.inl:
+
 /usr/include/glm/ext/matrix_float4x4_precision.hpp:
 
 /usr/include/glm/ext/matrix_float4x3.hpp:
@@ -597,6 +597,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/glm/ext/matrix_float3x4_precision.hpp:
 
 /usr/include/glm/ext/matrix_float3x3_precision.hpp:
+
+/usr/include/glm/ext/matrix_transform.inl:
 
 /usr/include/glm/ext/matrix_float3x3.hpp:
 
@@ -629,6 +631,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/glm/vec4.hpp:
 
 /usr/include/glm/ext/matrix_double2x4_precision.hpp:
+
+/usr/include/glm/ext/matrix_double2x3_precision.hpp:
 
 /usr/include/glm/ext/matrix_double2x3.hpp:
 
@@ -712,6 +716,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/error_constants.h:
 
+/usr/include/c++/13/x86_64-redhat-linux/bits/cpu_defines.h:
+
 /usr/include/glm/ext/matrix_float4x3_precision.hpp:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/c++locale.h:
@@ -721,10 +727,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/c++/13/x86_64-redhat-linux/bits/atomic_word.h:
 
 /usr/include/c++/13/vector:
-
-/usr/include/c++/13/x86_64-redhat-linux/bits/cpu_defines.h:
-
-/usr/include/c++/13/variant:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/gthr-default.h:
 
@@ -748,13 +750,7 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/tr1/exp_integral.tcc:
 
-/usr/include/c++/13/tr1/ell_integral.tcc:
-
-/usr/include/c++/13/tr1/beta_function.tcc:
-
-/usr/include/c++/13/string:
-
-/usr/include/c++/13/sstream:
+/usr/include/c++/13/bits/cxxabi_init_exception.h:
 
 /usr/include/c++/13/bits/codecvt.h:
 
@@ -766,13 +762,13 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/bits/atomic_lockfree_defines.h:
 
+/usr/include/c++/13/bits/cxxabi_forced.h:
+
+/usr/include/bits/types/mbstate_t.h:
+
 /usr/include/bits/types/struct_timeval.h:
 
 /usr/include/c++/13/bits/concept_check.h:
-
-/usr/include/glm/ext/matrix_double2x3_precision.hpp:
-
-/usr/include/c++/13/bits/algorithmfwd.h:
 
 /usr/include/bits/xopen_lim.h:
 
@@ -824,6 +820,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/bits/types/struct_itimerspec.h:
 
+/usr/include/bits/struct_rwlock.h:
+
 /usr/include/bits/flt-eval-method.h:
 
 /usr/include/c++/13/bits/chrono.h:
@@ -831,6 +829,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/bits/types/sigset_t.h:
 
 /usr/include/c++/13/bits/move.h:
+
+/usr/include/bits/types/locale_t.h:
 
 /usr/include/glm/ext/matrix_float3x4.hpp:
 
@@ -870,8 +870,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/bits/struct_mutex.h:
 
-/usr/include/c++/13/span:
-
 /usr/include/c++/13/bits/char_traits.h:
 
 /usr/include/c++/13/bits/hashtable_policy.h:
@@ -898,6 +896,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/bits/cpu-set.h:
 
+/usr/include/c++/13/bits/stl_vector.h:
+
 /usr/include/glm/ext/matrix_float3x2.hpp:
 
 /usr/include/c++/13/bits/basic_ios.h:
@@ -905,6 +905,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/bits/confname.h:
 
 /usr/include/bits/setjmp.h:
+
+/usr/include/c++/13/string:
 
 /home/alexp/Repos/MyEngineDev/engine/vlk/renderer.hpp:
 
@@ -948,6 +950,12 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/bits/utility.h:
 
+/usr/include/c++/13/tr1/beta_function.tcc:
+
+/usr/include/sys/single_threaded.h:
+
+/usr/include/c++/13/backward/binders.h:
+
 /usr/include/c++/13/bits/alloc_traits.h:
 
 /usr/include/bits/select.h:
@@ -956,9 +964,13 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /home/alexp/Repos/MyEngineDev/vendor/imgui/imgui.h:
 
-/usr/include/c++/13/bits/stl_vector.h:
+/usr/include/c++/13/bits/atomic_base.h:
 
-/home/alexp/Repos/MyEngineDev/engine/Timer.hpp:
+/usr/include/glm/detail/type_vec1.hpp:
+
+/usr/include/bits/types/struct_tm.h:
+
+/usr/include/c++/13/bits/uses_allocator_args.h:
 
 /usr/include/bits/floatn.h:
 
@@ -971,8 +983,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/glm/mat2x4.hpp:
 
 /usr/include/c++/13/bits/hashtable.h:
-
-/usr/include/c++/13/bits/chrono_io.h:
 
 /home/alexp/Repos/MyEngineDev/engine/vlk/vertex.hpp:
 
@@ -1006,10 +1016,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /home/alexp/Repos/MyEngineDev/vendor/imgui/imconfig.h:
 
-/usr/include/bits/struct_rwlock.h:
-
-/usr/include/c++/13/bits/stl_algo.h:
-
 /usr/include/bits/thread-shared-types.h:
 
 /home/alexp/Repos/MyEngineDev/simpleGame/main.cpp:
@@ -1030,6 +1036,10 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/bits/locale.h:
 
+/usr/include/glm/ext/vector_bool4.hpp:
+
+/home/alexp/Repos/MyEngineDev/engine/Camera.hpp:
+
 /usr/include/glm/ext/vector_int3_sized.hpp:
 
 /usr/include/c++/13/x86_64-redhat-linux/bits/c++config.h:
@@ -1037,12 +1047,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/assert.h:
 
 /home/alexp/Repos/MyEngineDev/engine/vlk/textureVLK.hpp:
-
-/usr/include/sys/single_threaded.h:
-
-/usr/include/c++/13/backward/binders.h:
-
-/usr/include/c++/13/charconv:
 
 /usr/include/c++/13/bits/cpp_type_traits.h:
 
@@ -1064,19 +1068,11 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/bits/types/struct_timespec.h:
 
-/usr/include/bits/types/error_t.h:
-
-/home/alexp/Repos/MyEngineDev/engine/vlk/inputsVLK.hpp:
-
 /usr/include/bits/floatn-common.h:
 
 /usr/include/c++/13/bits/stl_pair.h:
 
 /usr/include/asm/unistd.h:
-
-/usr/include/bits/types/locale_t.h:
-
-/usr/include/c++/13/bits/stl_heap.h:
 
 /usr/include/glm/detail/type_mat2x2.hpp:
 
@@ -1104,25 +1100,7 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/iomanip:
 
-/usr/include/c++/13/bits/atomic_base.h:
-
-/usr/include/glm/detail/type_vec1.hpp:
-
-/usr/include/bits/types/struct_tm.h:
-
-/usr/include/c++/13/bits/uses_allocator_args.h:
-
-/usr/include/glm/ext/vector_uint3.hpp:
-
-/usr/include/c++/13/string_view:
-
-/usr/include/bits/libc-header-start.h:
-
 /usr/include/bits/types/timer_t.h:
-
-/usr/include/c++/13/stdexcept:
-
-/usr/include/bits/mathcalls-narrow.h:
 
 /usr/include/bits/math-vector.h:
 
@@ -1174,15 +1152,15 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/bits/sched.h:
 
+/home/alexp/Repos/MyEngineDev/engine/vlk/inputsVLK.hpp:
+
+/usr/include/bits/types/error_t.h:
+
 /usr/include/bits/types/clockid_t.h:
 
 /usr/include/bits/stdint-intn.h:
 
-/usr/include/bits/types/mbstate_t.h:
-
-/usr/include/c++/13/bits/cxxabi_forced.h:
-
-/usr/include/c++/13/bits/cxxabi_init_exception.h:
+/usr/include/glm/ext/scalar_constants.hpp:
 
 /usr/include/c++/13/bits/enable_special_members.h:
 
@@ -1205,6 +1183,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/c++/13/optional:
 
 /usr/include/c++/13/bits/fs_dir.h:
+
+/usr/include/c++/13/sstream:
 
 /usr/include/c++/13/bits/fs_fwd.h:
 
@@ -1236,6 +1216,10 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/bits/ios_base.h:
 
+/usr/include/bits/typesizes.h:
+
+/usr/include/c++/13/bits/locale_classes.tcc:
+
 /usr/include/bits/errno.h:
 
 /usr/include/c++/13/bits/istream.tcc:
@@ -1256,11 +1240,11 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/bits/max_size_type.h:
 
-/usr/include/c++/13/streambuf:
-
 /usr/include/bits/types/__fpos_t.h:
 
 /usr/include/asm/unistd_64.h:
+
+/usr/include/c++/13/streambuf:
 
 /usr/include/c++/13/bits/memory_resource.h:
 
@@ -1340,14 +1324,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/bits/stringfwd.h:
 
-/usr/include/bits/typesizes.h:
-
-/usr/include/c++/13/bits/locale_classes.tcc:
-
-/usr/include/c++/13/bits/uniform_int_dist.h:
-
-/usr/include/c++/13/chrono:
-
 /usr/include/glm/ext/matrix_double2x4.hpp:
 
 /usr/include/c++/13/climits:
@@ -1369,6 +1345,8 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/c++/13/concepts:
 
 /usr/include/c++/13/memory:
+
+/usr/include/glm/ext/matrix_transform.hpp:
 
 /usr/include/c++/13/cstdint:
 
@@ -1410,8 +1388,6 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 
 /usr/include/c++/13/ext/type_traits.h:
 
-/usr/include/c++/13/format:
-
 /usr/include/limits.h:
 
 /usr/include/c++/13/tr1/bessel_function.tcc:
@@ -1433,3 +1409,15 @@ CMakeFiles/simpleGame.dir/simpleGame/main.cpp.o: /home/alexp/Repos/MyEngineDev/s
 /usr/include/c++/13/pstl/glue_memory_defs.h:
 
 /usr/include/c++/13/pstl/pstl_config.h:
+
+/usr/include/bits/mathcalls-narrow.h:
+
+/usr/include/c++/13/stdexcept:
+
+/usr/include/glm/ext/vector_uint3.hpp:
+
+/usr/include/bits/libc-header-start.h:
+
+/usr/include/c++/13/string_view:
+
+/usr/include/c++/13/tr1/ell_integral.tcc:
