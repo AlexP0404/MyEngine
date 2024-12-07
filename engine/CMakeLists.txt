@@ -16,6 +16,7 @@ if(ENGINE_USE_VLK)
   find_package(OpenAL REQUIRED)
 
   set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui")
+  set(STB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../vendor/stb")
   set(IMGUI_DEPS "${IMGUI_DIR}" "${IMGUI_DIR}/backends")
 
   file(
@@ -44,7 +45,7 @@ if(ENGINE_USE_VLK)
   target_include_directories(
     engine
     PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/vlk"
-           ${IMGUI_DEPS} Vulkan::Headers)
+           ${IMGUI_DEPS} ${STB_DIR} Vulkan::Headers)
 
   target_compile_definitions(engine PUBLIC ENGINE_USE_VLK)
 else()

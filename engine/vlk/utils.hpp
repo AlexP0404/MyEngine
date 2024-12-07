@@ -2,15 +2,17 @@
 #define UTILS_HPP
 
 #include <cstring>
+#include <string>
 #include <type_traits>
-#include <vulkan/vk_enum_string_helper.h>
+// #include <vulkan/vk_enum_string_helper.h>
 
 #define VK_CHECK(x)                                                            \
   do {                                                                         \
     VkResult err = x;                                                          \
     if (err) {                                                                 \
       throw std::runtime_error("Detected Vulkan error : " +                    \
-                               std::string(string_VkResult(err)));             \
+                               std::to_string(err));                           \
+      /*std::string(string_VkResult(err)));*/                                  \
     }                                                                          \
   } while (0)
 

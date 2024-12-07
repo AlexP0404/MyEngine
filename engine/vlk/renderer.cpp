@@ -4,6 +4,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <iostream>
+
 static glm::vec2 sWinDimensions;
 
 Renderer::Renderer(std::shared_ptr<WindowVLK> pWindow,
@@ -158,19 +160,25 @@ void Renderer::DrawCube(const glm::vec3 &pPosition, const glm::vec3 &pColor,
   // generate 6 quad faces to make the cube
   std::array<Vertex, 8> cubeVertices;
   std::array<glm::vec3, 8> cubePos = {
-      glm::vec3(-1, -1, 0.5) + pPosition,  // 0
-      glm::vec3(1, -1, 0.5) + pPosition,   // 1
-      glm::vec3{-1, 1, 0.5} + pPosition,   // 2
-      glm::vec3{1, 1, 0.5} + pPosition,    // 3
-      glm::vec3{-1, -1, -0.5} + pPosition, // 4
-      glm::vec3{1, -1, -0.5} + pPosition,  // 5
-      glm::vec3{-1, 1, -0.5} + pPosition,  // 6
-      glm::vec3{1, 1, -0.5} + pPosition    // 7
+      glm::vec3(-1, -1, 0.5),  // 0
+      glm::vec3(1, -1, 0.5),   // 1
+      glm::vec3{-1, 1, 0.5},   // 2
+      glm::vec3{1, 1, 0.5},    // 3
+      glm::vec3{-1, -1, -0.5}, // 4
+      glm::vec3{1, -1, -0.5},  // 5
+      glm::vec3{-1, 1, -0.5},  // 6
+      glm::vec3{1, 1, -0.5}    // 7
   };
   for (auto &vert : cubePos) {
     vert.x *= pRadius;
     vert.y *= pRadius;
     vert.z *= pRadius;
+    vert.x += pPosition.x;
+    vert.y += pPosition.y;
+    vert.z += pPosition.z;
+    // TODO:: figure out why this matrix transformation is not right
+    // COULD NEED DIFFERENT VERTICES
+    std::cout << vert.x << ',' << vert.y << ',' << vert.z << '\n';
   }
 
   for (int i = 0; i < 8; i++) {

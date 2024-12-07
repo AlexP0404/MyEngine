@@ -632,29 +632,27 @@ void VulkanRenderData::createIndexBuffers() {
     offset += 4;
   }
   offset = 0;
-  std::vector<uint16_t> singleCube = {// Top
-                                      2, 6, 7, 2, 3, 7,
+  const std::vector<uint16_t> singleCube = {// Top
+                                            2, 6, 7, 2, 3, 7,
 
-                                      // Bottom
-                                      0, 4, 5, 0, 1, 5,
+                                            // Bottom
+                                            0, 4, 5, 0, 1, 5,
 
-                                      // Left
-                                      0, 2, 6, 0, 4, 6,
+                                            // Left
+                                            0, 2, 6, 0, 4, 6,
 
-                                      // Right
-                                      1, 3, 7, 1, 5, 7,
+                                            // Right
+                                            1, 3, 7, 1, 5, 7,
 
-                                      // Front
-                                      0, 2, 3, 0, 1, 3,
+                                            // Front
+                                            0, 2, 3, 0, 1, 3,
 
-                                      // Back
-                                      4, 6, 7, 4, 5, 7};
+                                            // Back
+                                            4, 6, 7, 4, 5, 7};
   for (int i = 0; i < MAX_CUBE_IDX_COUNT; i += 6 * 6) {
-    for (auto &idx : singleCube) {
-      idx += offset;
+    for (const auto &idx : singleCube) {
+      mCubeIndices.push_back(idx + offset);
     }
-    mCubeIndices.insert(mCubeIndices.end(), singleCube.begin(),
-                        singleCube.end());
     offset += 8;
   }
   // mCircleIndices = mQuadIndices;
